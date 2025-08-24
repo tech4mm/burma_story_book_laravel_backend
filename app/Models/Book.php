@@ -22,10 +22,14 @@ class Book extends Model implements HasMedia
         'is_free',
         'published_at'
     ];
+    // public function author()
+    // {
+    //     return $this->belongsTo(User::class, 'author_id');
+    // }
     public function author()
-    {
-        return $this->belongsTo(User::class, 'author_id');
-    }
+{
+    return $this->belongsTo(\App\Models\Author::class);
+}
     public function category()
     {
         return $this->belongsTo(Category::class);
