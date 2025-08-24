@@ -21,6 +21,10 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin;
+use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
+use ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin;
+use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
+use Swis\Filament\Backgrounds\FilamentBackgroundsPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -56,24 +60,15 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->plugins([
-                // FilamentEditProfilePlugin::make()
-                //     ->slug('my-profile')
-                //     ->setTitle('My Profile')
-                //     ->setNavigationLabel('My Profile')
-                //     ->setNavigationGroup('Group Profile')
-                //     ->setIcon('heroicon-o-user')
-                //     ->setSort(10)
-                //     ->shouldRegisterNavigation(false)
-                //     ->shouldShowEmailForm()
-                //     ->shouldShowDeleteAccountForm(false)
-                //     ->shouldShowSanctumTokens()
-                //     ->shouldShowBrowserSessionsForm()
-                //     ->shouldShowAvatarForm(),
-
+                FilamentSpatieLaravelHealthPlugin::make(),
                 FilamentEditProfilePlugin::make(),
                 FilamentInactivityGuardPlugin::make(),
                 EasyFooterPlugin::make(),
+                FilamentSpatieLaravelBackupPlugin::make(),
+                EnvironmentIndicatorPlugin::make(),
 
+                FilamentBackgroundsPlugin::make()
+                    ->showAttribution(false),
                 FilamentShieldPlugin::make()
                     ->gridColumns([
                         'default' => 1,
@@ -90,6 +85,11 @@ class AdminPanelProvider extends PanelProvider
                         'default' => 1,
                         'sm' => 2,
                     ]),
+            ])
+            ->navigationGroups([
+                'Book Management',
+                'Settings',
+                'Filament Shield',
             ])
             ->resources([
                 config('filament-logger.activity_resource')
