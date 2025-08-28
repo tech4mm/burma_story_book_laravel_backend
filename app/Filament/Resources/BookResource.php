@@ -201,13 +201,14 @@ class BookResource extends Resource
                 //     ->visible(fn(Book $record) => $record->getFirstMediaUrl('book')),
                 Tables\Actions\Action::make('read')
                     ->label('📖 Read Book')
-                    ->url(fn(Book $record) =>
+                    ->url(
+                        fn(Book $record) =>
                         $record->getFirstMedia('book')
                             ? $record->getFirstMedia('book')->getTemporaryUrl(now()->addMinutes(10))
                             : '#'
                     )
                     ->openUrlInNewTab()
-                    ->visible(fn(Book $record) => $record->hasMedia('book'));
+                    ->visible(fn(Book $record) => $record->hasMedia('book')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
