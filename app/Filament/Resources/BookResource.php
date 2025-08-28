@@ -67,6 +67,7 @@ class BookResource extends Resource
                         Forms\Components\Group::make([
                             SpatieMediaLibraryFileUpload::make('book_file')
                                 ->collection('book')
+                                ->disk('s3')
                                 ->label('Book PDF')
                                 ->acceptedFileTypes(['application/pdf'])
                                 ->required()
@@ -194,17 +195,12 @@ class BookResource extends Resource
                 //
             ])
             ->actions([
-                // Tables\Actions\Action::make('read')
-                //     ->label('📖 Read Book')
-                //     ->url(fn(Book $record) => $record->getFirstMediaUrl('book'))
-                //     ->openUrlInNewTab()
-                //     ->visible(fn(Book $record) => $record->getFirstMediaUrl('book')),
                 Tables\Actions\Action::make('read')
                     ->label('📖 Read Book')
                     ->url(function (Book $record) {
                         $media = $record->getFirstMedia('book');
                         return $media
-                            ? $media->getTemporaryUrl(now()->addMinutes(10), [], 's3')
+                            ? $media->getUrl()
                             : '#';
                     })
                     ->openUrlInNewTab()
