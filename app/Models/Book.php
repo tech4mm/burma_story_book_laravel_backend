@@ -26,6 +26,13 @@ class Book extends Model implements HasMedia
     // {
     //     return $this->belongsTo(User::class, 'author_id');
     // }
+
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection('book')
+            ->useDisk('s3');   // 👈 Force this collection to S3
+    }
     public function author()
 {
     return $this->belongsTo(\App\Models\Author::class);
