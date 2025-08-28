@@ -201,12 +201,12 @@ class BookResource extends Resource
                 //     ->visible(fn(Book $record) => $record->getFirstMediaUrl('book')),
                 Tables\Actions\Action::make('read')
                     ->label('📖 Read Book')
-                    ->url(
-                        fn(Book $record) =>
-                        $record->getFirstMedia('book')
-                            ? $record->getFirstMedia('book')->getTemporaryUrl(now()->addMinutes(10))
-                            : '#'
-                    )
+                    ->url(function (Book $record) {
+                        $media = $record->getFirstMedia('book');
+                        return $media
+                            ? $media->getTemporaryUrl(now()->addMinutes(10), [], 's3')
+                            : '#';
+                    })
                     ->openUrlInNewTab()
                     ->visible(fn(Book $record) => $record->hasMedia('book')),
             ])
